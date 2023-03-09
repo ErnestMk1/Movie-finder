@@ -4,4 +4,51 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: center no-repeat;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 255, 0.5),
+    rgba(255, 255, 0, 0.5)
+  ), url('../../imgs/first_page.jpg');
+  color: #FFF;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1vw;
+  border: solid 1px #000;
+  background-color: rgba(0, 0, 0, .2);
+  color: #FFF;
+  font-family: inherit;
+  font-size: 1.3rem;
+  padding: 1em;
+  cursor: pointer;
+}
+
+.button svg {
+  transition: .3s ease-in-out;
+}
+
+.button:hover svg {
+  margin-left: 25px;
+}
+
+.main_div_first_caption {
+  font-size: 2rem;
+  width: 33vw;
+  height: 11vh;
+  text-align: center;
+}
+
+.main_div_caption {
+  font-size: 3rem;
+  width: 43vw;
+  height: 16.5vh;
+  text-align: center;
+}
+
+.dnone {
+  opacity: 0;
 }
