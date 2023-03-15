@@ -20,7 +20,7 @@ const WelcomePage = () => {
   }, [showFirst])
 
   const onBtnClick = () => {
-    navigate(generatePath('/age'));
+    navigate(generatePath('/keyword'));
   };
 
   return (
