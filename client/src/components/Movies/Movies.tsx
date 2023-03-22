@@ -1,55 +1,76 @@
 import css from './Movies.module.css';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { useState, useEffect } from 'react';
+import {
+  useRef,
+  useState
+} from 'react';
 
 const Movies = () => {
-  const [movies, setMovies] = useState([]);
-  const { id } = useParams();
-  let releaseDMin = '';
-  let releaseDMax = '';
+  const [inputText, setInputText] = useState('');
+  const [oldChecker, setOldChecker] = useState(false);
+  const [newChecker, setNewChecker] = useState(false);
+  const inputEl = useRef<HTMLInputElement | any>();
 
-  if (id === 'new') {
-    releaseDMin = '2010-01-01';
-    releaseDMax = '';
-  } else if (id === 'old') {
-    releaseDMin = '1990-01-01';
-    releaseDMax = '2010-12-31';
-  }
+  const onInputChange = (e: any) => {
+    e.preventDefault();
+    setInputText(inputEl.current.value);
+  };
 
-  const options = {
-    method: 'GET',
-    url: 'https://imdb8.p.rapidapi.com/title/v2/find',
-    params: {
-      title: 'a',
-      titleType: 'movie,tvMovie',
-      limit: '30',
-      sortArg: 'moviemeter,asc',
-      releaseDateMin: releaseDMin,
-      releaseDateMax: releaseDMax
-    },
-    headers: {
-      'X-RapidAPI-Key': '3750bcc244mshe235e9242169807p11f2e6jsn9dc1bda2bdd7',
-      'X-RapidAPI-Host': 'imdb8.p.rapidapi.com'
+  const onOldChange = () => {
+    if (oldChecker) {
+      setOldChecker(false);
+    } else {
+      setOldChecker(true);
+      setNewChecker(false);
+    }
+  };
+  const onNewChange = () => {
+    if (newChecker) {
+      setNewChecker(false);
+    } else {
+      setNewChecker(true);
+      setOldChecker(false);
     }
   };
 
-  useEffect(() => {
-    axios.request(options).then(response => {
-      setMovies(response.data)
-      console.log(response.data);
-    }).catch((error) => {
-      console.error(error);
-    });
-  });
-
   return (
     <div className={css.main_div}>
-      <h1>Hello there!</h1>
-      <p>Here's some list of movies</p>
-      {/* {movies.map(movie => movie)} */}
+      <div className={css.searching}>
+        <input
+          type="text"
+          placeholder="You're looking for..."
+          className={css.searching_input}
+          onChange={onInputChange}
+          value={inputText}
+          ref={inputEl}
+        />
+
+        <div className={css.checkboxes}>
+          <label htmlFor="old-fashioned">
+            <input
+              type="checkbox"
+              id="old-fashioned"
+              checked={oldChecker}
+              onChange={onOldChange}
+            />
+            OLD-FASHIONED
+          </label>
+
+
+          <label htmlFor="new">
+            <input
+              type="checkbox"
+              id="new"
+              checked={newChecker}
+              onChange={onNewChange}
+            />
+            NEW
+          </label>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default Movies;
+
+// API with the key: http://www.omdbapi.com/?i=tt3896198&apikey=9c56c4d4

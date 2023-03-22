@@ -20,7 +20,7 @@ const WelcomePage = () => {
   }, [showFirst])
 
   const onBtnClick = () => {
-    navigate(generatePath('/keyword'));
+    navigate(generatePath('/movies'));
   };
 
   return (
@@ -32,7 +32,7 @@ const WelcomePage = () => {
         onClick={onBtnClick}
         className={buttonTrigger ? `${css.button} animate__animated animate__fadeIn` : `${css.button} ${css.dnone}`}
       >
-        Get Recommendations <ArrowRightCircle size={25}/>
+        Get Into It <ArrowRightCircle size={25}/>
       </button>
     </div>
   );
