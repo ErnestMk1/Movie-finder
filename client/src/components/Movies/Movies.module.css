@@ -29,3 +29,8 @@
   flex-direction: column;
   gap: 1vh;
 }
+
+.movieList_div {
+  display: flex;
+  gap: 1vw;
+}
