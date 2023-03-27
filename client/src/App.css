@@ -1,14 +1,14 @@
 html {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
   scroll-behavior: smooth;
-}
-
-body {
   font-family: "montserrat-alternates", sans-serif;
   font-weight: 400;
   font-style: normal;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 h1, h2, h3, h4, h5, h6 {

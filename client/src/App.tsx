@@ -1,11 +1,16 @@
-import css from './App.module.css';
+import './App.css';
 import WelcomePage from './components/Welcome/WelcomePage';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from 'react-router-dom';
 import Movies from './components/Movies/Movies';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
   return (
-    <div className={css.main_div}>
+    <div className="App">
       <Router>
         <Routes>
           <Route path="/movies" element={ <Movies /> } />

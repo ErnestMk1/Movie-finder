@@ -1,11 +1,14 @@
-import css from './Movies.module.css';
+import './Movies.css';
 import {
   useRef,
   useState,
   useEffect
 } from 'react';
+import { Dropdown } from 'react-bootstrap';
 import axios from 'axios';
 import MovieList from './MovieList';
+import AddFavorites from './AddFavorites';
+import RemoveFavorites from './RemoveFavorites';
 
 export interface MovieData {
   Title: string;
@@ -40,7 +43,9 @@ const Movies = () => {
   const [oldChecker, setOldChecker] = useState(false);
   const [newChecker, setNewChecker] = useState(false);
   const [movies, setMovies] = useState([]);
+  const [favorites, setFavorites] = useState<Array<MovieData>>([]);
   const [topRatedMovies, setTopRatedMovies] = useState<Array<MovieData>>([]);
+  const [show, setShow] = useState(false);
   const inputEl = useRef<HTMLInputElement | any>();
 
   const APIkey = '9c56c4d4';
@@ -57,37 +62,13 @@ const Movies = () => {
     return response.data;
   };
 
-  const getTopRatedMovies = async (): Promise<MovieData[]> => {
-    const topRatedMovieTitles = [
-      'The Shawshank Redemption',
-      'The Godfather',
-      'The Godfather: Part II',
-      'The Dark Knight',
-      '12 Angry Men',
-      'Schindler\'s List',
-      'The Lord of the Rings: The Return of the King',
-      'Pulp Fiction',
-      'The Lord of the Rings: The Fellowship of the Ring',
-      'Forrest Gump'
-    ];
-
-    const movieDataPromise = topRatedMovieTitles.map(getMovieData);
-    const movieData = await Promise.all(movieDataPromise);
-
-    const sortedMovieData = movieData.sort((a, b) => parseFloat(b.imdbRating) - parseFloat(a.imdbRating));
-    const topTenMovies = sortedMovieData.slice(0, 10);
-
-    return Promise.resolve(topTenMovies);
-  };
-
   const getMoviesRequest = async (input: string) => {
-    const url = `http://www.omdbapi.com/?s=${input}&apikey=9c56c4d4`;
+    const url = `http://www.omdbapi.com/?s=${input}&apikey=${APIkey}`;
 
-    const response = await fetch(url);
-    const responseJSON = await response.json();
+    const response = await axios.get(url);
 
-    if (responseJSON.Search) {
-      setMovies(responseJSON.Search);
+    if (response.data.Search) {
+      setMovies(response.data.Search);
     }
   };
 
@@ -106,9 +87,31 @@ const Movies = () => {
   };
 
   useEffect(() => {
+    const getTopRatedMovies = async (): Promise<MovieData[]> => {
+      const topRatedMovieTitles = [
+        'The Shawshank Redemption',
+        'The Godfather',
+        'The Godfather: Part II',
+        'The Dark Knight',
+        '12 Angry Men',
+        'Schindler\'s List',
+        'The Lord of the Rings: The Return of the King',
+        'Pulp Fiction',
+        'The Lord of the Rings: The Fellowship of the Ring',
+        'Forrest Gump'
+      ];
+
+      const movieDataPromise = topRatedMovieTitles.map(getMovieData);
+      const movieData = await Promise.all(movieDataPromise);
+
+      const sortedMovieData = movieData.sort((a, b) => parseFloat(b.imdbRating) - parseFloat(a.imdbRating));
+      const topTenMovies = sortedMovieData.slice(0, 10);
+
+      return Promise.resolve(topTenMovies);
+    };
+
     getTopRatedMovies()
       .then((movies: any) => {
-        console.log(movies);
         return setTopRatedMovies(movies);
       })
       .catch((err: Error) => console.error(err));
@@ -118,44 +121,124 @@ const Movies = () => {
     getMoviesRequest(inputText);
   }, [inputText]);
 
+  useEffect(() => {
+    const moviesFavorites: MovieData[] = JSON.parse(localStorage.getItem('movie-app-favorites') || '');
+
+    setFavorites(moviesFavorites);
+  }, []);
+
+  const saveToLocalStorage = (items: any) => {
+    localStorage.setItem('movie-app-favorites', JSON.stringify(items));
+  };
+
+  const addToFavorites = (movie: MovieData) => {
+    const newFavorites = [...favorites];
+    if (newFavorites.includes(movie)) {
+      alert("You've already have this movie in Favorites.");
+    } else {
+      newFavorites.push(movie);
+    }
+    setFavorites(newFavorites);
+    saveToLocalStorage(newFavorites);
+  };
+  const removeFromFavorites = (movie: MovieData) => {
+    const newFavorites = favorites.filter((mov) => mov.imdbID !== movie.imdbID);
+    setFavorites(newFavorites);
+    saveToLocalStorage(newFavorites);
+  };
+
+  const onDropdownClick = () => {
+    setShow(!show);
+  };
+
   return (
-    <div className={css.main_div}>
-      <div className={css.searching}>
+    <div className="main_div">
+      <div className="searching">
         <input
           type="text"
           placeholder="You're looking for..."
-          className={css.searching_input}
+          className="searching_input"
           onChange={onInputChange}
           value={inputText}
           ref={inputEl}
         />
 
-        <div className={css.checkboxes}>
-          <label htmlFor="old-fashioned">
-            <input
-              type="checkbox"
-              id="old-fashioned"
-              checked={oldChecker}
-              onChange={() => onCheckChange(setOldChecker, setNewChecker, 'old')}
-            />
-            OLD-FASHIONED
-          </label>
+        <Dropdown
+          role="menuitemcheckbox"
+          id="dropdown-menu"
+          onMouseEnter={() => setShow(true)}
+          onMouseLeave={() => setShow(false)}
+          onClick={onDropdownClick}
+        >
+          <span>Specify a Year</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="bi bi-arrow-down-circle"
+            viewBox="0 0 16 16"
+          >
+            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+          </svg>
+          <Dropdown.Menu show={show} id="dropdown-menu_content">
+          <label htmlFor="old-fashioned" className='label'>
+              <input
+                type="checkbox"
+                id="old-fashioned"
+                checked={oldChecker}
+                onChange={() => onCheckChange(setOldChecker, setNewChecker, 'old')}
+                className="input-checker"
+              />
+              OLD-FASHIONED <b>(1980-2010)</b>
+            </label>
 
-
-          <label htmlFor="new">
-            <input
-              type="checkbox"
-              id="new"
-              checked={newChecker}
-              onChange={() => onCheckChange(setNewChecker, setOldChecker, 'new')}
-            />
-            NEW
-          </label>
-        </div>
+            <label htmlFor="new" className='label'>
+              <input
+                type="checkbox"
+                id="new"
+                checked={newChecker}
+                onChange={() => onCheckChange(setNewChecker, setOldChecker, 'new')}
+              />
+              NEW <b>(2010-2023)</b>
+            </label>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
 
-      <MovieList movies={topRatedMovies} />
-      <MovieList movies={movies} />
+      <div className="movies-block">
+        <div className="search-result">
+          <div className="movieList-container">
+            <MovieList
+              movies={movies}
+              favoritesComponent={AddFavorites}
+              favoritesHandler={addToFavorites}
+            />
+          </div>
+        </div>
+
+        <div className="greatest-movies">
+          <h1>Top 10 Movies of All Time</h1>
+          <div className="movieList-container">
+            <MovieList
+              movies={topRatedMovies}
+              favoritesComponent={AddFavorites}
+              favoritesHandler={addToFavorites}
+            />
+          </div>
+        </div>
+
+        <div className="favorites-movies">
+          <h1>{favorites.length > 0 ? 'Favorites' : ''}</h1>
+          <div className="movieList-container">
+            <MovieList
+              movies={favorites}
+              favoritesComponent={RemoveFavorites}
+              favoritesHandler={removeFromFavorites}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

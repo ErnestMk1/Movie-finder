@@ -1,0 +1,139 @@
+.main_div {
+  min-height: 100dvh;
+  width: 100vw;
+  background: rgba(170, 0, 0, 1);
+  color: #FFF;
+}
+
+.searching {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 10vh;
+  gap: 1vw;
+  margin-right: 5vw;
+}
+
+.searching_input {
+  padding: 1rem;
+  font-size: 1rem;
+  width: 30vw;
+  border-radius: 15px;
+  outline: none;
+}
+
+#dropdown-menu {
+  position: relative;
+  font-weight: 500;
+  border: 1px #FFF solid;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: .5vw;
+  cursor: pointer;
+  transition: transform .3s;
+}
+
+#dropdown-menu:hover {
+  transform: scale(1.1);
+}
+
+#dropdown-menu_content {
+  left: -15vh;
+  bottom: -4vw;
+  background-color: rgba(0, 0, 0, .7);
+  color: #FFF;
+}
+
+.dropdown-menu > .label {
+  width: 20vw;
+  margin-left: 1vw;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: .3vw;
+}
+
+.input-checker:checked {
+  color: #000;
+}
+
+.movieList-container {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  gap: 6vw;
+  padding: 3rem;
+}
+
+.movie_card {
+  position: relative;
+  background-color: rgba(255, 255, 255, .7);
+  width: 300px;
+  min-height: 450px;
+  padding: 3rem;
+  border-radius: 15px;
+  text-align: center;
+  transition: transform .3s;
+}
+
+.movie_card img {
+  width: 200px;
+  border-radius: 5px;
+  margin-bottom: 2vh;
+}
+
+.movie_card h2 {
+  color: #000;
+  font-weight: 700;
+}
+
+.movies-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10vh;
+}
+
+.greatest-movies {
+  background-color: rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+.greatest-movies h1 {
+  margin-top: 4vh;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vw;
+  font-size: 1rem;
+  font-weight: 700;
+  background-color: rgba(0, 0, 0, .7);
+  color: #FFF;
+  opacity: 0;
+  transition: opacity .5s ease-in-out;
+  border-radius: 0 0 15px 15px;
+  cursor: pointer;
+}
+
+.movie_card:hover {
+  transform: scale(1.1);
+}
+
+.movie_card:hover .overlay {
+  opacity: 1;
+}
+
+.favorites-movies {
+  text-align: center;
+}
