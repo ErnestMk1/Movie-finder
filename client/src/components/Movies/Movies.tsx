@@ -9,6 +9,7 @@ import axios from 'axios';
 import MovieList from './MovieList';
 import AddFavorites from './AddFavorites';
 import RemoveFavorites from './RemoveFavorites';
+import Footer from '../Footer/Footer';
 
 export interface MovieData {
   Title: string;
@@ -38,18 +39,18 @@ export interface MovieData {
   Response: string;
 };
 
+export const APIkey = 'bbf0084';
+export const APIendpoint = 'https://www.omdbapi.com/';
+
 const Movies = () => {
   const [inputText, setInputText] = useState('');
   const [oldChecker, setOldChecker] = useState(false);
   const [newChecker, setNewChecker] = useState(false);
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Array<MovieData>>([]);
   const [favorites, setFavorites] = useState<Array<MovieData>>([]);
   const [topRatedMovies, setTopRatedMovies] = useState<Array<MovieData>>([]);
   const [show, setShow] = useState(false);
   const inputEl = useRef<HTMLInputElement | any>();
-
-  const APIkey = '9c56c4d4';
-  const APIendpoint = 'http://www.omdbapi.com/';
 
   const getMovieData = async (title: string): Promise<MovieData> => {
     const response = await axios.get(APIendpoint, {
@@ -60,16 +61,6 @@ const Movies = () => {
     });
 
     return response.data;
-  };
-
-  const getMoviesRequest = async (input: string) => {
-    const url = `http://www.omdbapi.com/?s=${input}&apikey=${APIkey}`;
-
-    const response = await axios.get(url);
-
-    if (response.data.Search) {
-      setMovies(response.data.Search);
-    }
   };
 
   const onInputChange = (e: any) => {
@@ -115,11 +106,32 @@ const Movies = () => {
         return setTopRatedMovies(movies);
       })
       .catch((err: Error) => console.error(err));
-  }, []);
+  }, [setTopRatedMovies]);
 
   useEffect(() => {
+    const getMoviesRequest = async (input: string) => {
+      const response = await axios.get(APIendpoint, {
+        params: {
+          apikey: APIkey,
+          s: input,
+          type: "movie"
+        }
+      });
+
+      if (response.data.Search) {
+        const resp = response.data.Search;
+        if (oldChecker) {
+          setMovies(resp.filter((mov: any) => Number(mov.Year) <= 2010));
+        } else if (newChecker) {
+          setMovies(resp.filter((mov: any) => Number(mov.Year) >= 2010 && Number(mov.Year) <= 2023));
+        } else {
+          setMovies(resp);
+        }
+      }
+    };
+
     getMoviesRequest(inputText);
-  }, [inputText]);
+  }, [inputText, oldChecker, newChecker]);
 
   useEffect(() => {
     const moviesFavorites: MovieData[] = JSON.parse(localStorage.getItem('movie-app-favorites') || '');
@@ -154,6 +166,7 @@ const Movies = () => {
   return (
     <div className="main_div">
       <div className="searching">
+        <h1>Movie Finder</h1>
         <input
           type="text"
           placeholder="You're looking for..."
@@ -179,7 +192,7 @@ const Movies = () => {
             className="bi bi-arrow-down-circle"
             viewBox="0 0 16 16"
           >
-            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+            <path fillRule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
           </svg>
           <Dropdown.Menu show={show} id="dropdown-menu_content">
           <label htmlFor="old-fashioned" className='label'>
@@ -218,7 +231,7 @@ const Movies = () => {
         </div>
 
         <div className="greatest-movies">
-          <h1>Top 10 Movies of All Time</h1>
+          <h1>Top Rated Movies</h1>
           <div className="movieList-container">
             <MovieList
               movies={topRatedMovies}
@@ -239,6 +252,7 @@ const Movies = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

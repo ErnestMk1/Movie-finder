@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import Movies from './components/Movies/Movies';
 import "bootstrap/dist/css/bootstrap.min.css";
+import MovieCard from './components/Movies/MovieCard/MovieCard';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/movies" element={ <Movies /> } />
+          <Route path="/movies/*" element={ <MovieCard /> } />
           <Route path="/" element={ <WelcomePage /> } />
           <Route path='/*' element={ <WelcomePage /> } />
         </Routes>

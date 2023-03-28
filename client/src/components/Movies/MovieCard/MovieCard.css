@@ -1,0 +1,17 @@
+.movie-card {
+  position: relative;
+  background-color: #252525;
+  min-height: 100dvh;
+  text-align: center;
+}
+
+.movie-card h1 {
+  font-weight: 700;
+  font-size: 2rem;
+  color: #FFF
+}
+
+.movie-card img {
+  position: absolute;
+  bottom: 0;
+}
