@@ -88,6 +88,14 @@
   transition: transform .3s;
 }
 
+.movie_card a {
+  text-decoration: none;
+}
+
+.movie_card a:hover {
+  color: #FFF;
+}
+
 .movie_card img {
   width: 12vw;
   border-radius: 5px;
@@ -154,7 +162,7 @@
 }
 
 .movie_card:hover {
-  transform: scale(1.2);
+  transform: scale(1.15);
 }
 
 .movie_card:hover .overlay {
@@ -167,4 +175,21 @@
 
 .favorites-movies {
   text-align: center;
+}
+
+.favorites-block {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5vw;
+}
+
+.favorites-block a {
+  text-decoration: none;
+  color: #FFF;
+}
+
+.favorites-block a:hover {
+  color: #FFF;
 }

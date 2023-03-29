@@ -14,10 +14,9 @@ const App = () => {
     <div className="App">
       <Router>
         <Routes>
+          <Route path="/movies/:movieID" element={ <MovieCard /> } />
           <Route path="/movies" element={ <Movies /> } />
-          <Route path="/movies/*" element={ <MovieCard /> } />
           <Route path="/" element={ <WelcomePage /> } />
-          <Route path='/*' element={ <WelcomePage /> } />
         </Routes>
       </Router>
     </div>

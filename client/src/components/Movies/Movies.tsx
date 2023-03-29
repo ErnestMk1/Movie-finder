@@ -50,6 +50,7 @@ const Movies = () => {
   const [favorites, setFavorites] = useState<Array<MovieData>>([]);
   const [topRatedMovies, setTopRatedMovies] = useState<Array<MovieData>>([]);
   const [show, setShow] = useState(false);
+  const [firstClick, setFirstClick] = useState(false);
   const inputEl = useRef<HTMLInputElement | any>();
 
   const getMovieData = async (title: string): Promise<MovieData> => {
@@ -134,7 +135,7 @@ const Movies = () => {
   }, [inputText, oldChecker, newChecker]);
 
   useEffect(() => {
-    const moviesFavorites: MovieData[] = JSON.parse(localStorage.getItem('movie-app-favorites') || '');
+    const moviesFavorites: MovieData[] = JSON.parse(localStorage.getItem('movie-app-favorites') || '[]');
 
     setFavorites(moviesFavorites);
   }, []);
@@ -146,7 +147,7 @@ const Movies = () => {
   const addToFavorites = (movie: MovieData) => {
     const newFavorites = [...favorites];
     if (newFavorites.includes(movie)) {
-      alert("You've already have this movie in Favorites.");
+      // do something here !!!
     } else {
       newFavorites.push(movie);
     }
@@ -161,6 +162,10 @@ const Movies = () => {
 
   const onDropdownClick = () => {
     setShow(!show);
+  };
+
+  const onFirstFavoritesClick = () => {
+    setFirstClick(true);
   };
 
   return (
@@ -224,7 +229,7 @@ const Movies = () => {
           <div className="movieList-container">
             <MovieList
               movies={movies}
-              favoritesComponent={AddFavorites}
+              favoritesComponent={() => <AddFavorites firstClick={firstClick} onFirstFavoritesClick={onFirstFavoritesClick} />}
               favoritesHandler={addToFavorites}
             />
           </div>
@@ -243,7 +248,7 @@ const Movies = () => {
 
         <div className="favorites-movies">
           <h1>{favorites.length > 0 ? 'Favorites' : ''}</h1>
-          <div className="movieList-container">
+          <div className="movieList-container" id="favorites">
             <MovieList
               movies={favorites}
               favoritesComponent={RemoveFavorites}
