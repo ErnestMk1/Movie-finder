@@ -1,27 +1,45 @@
-.movie-card {
+.movie-card_main-div {
   position: relative;
   background-color: #171717;
   min-height: 100dvh;
-  width: 100vw;
   color: #FFF;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-card {
+  min-height: 90dvh;
+  width: 100vw;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: minmax(100px, auto);
-  grid-template-areas: "poster content";
-  align-items: center;
+  grid-template-areas:
+  ". caption caption"
+  ". content poster";
   align-content: center;
   padding-left: 3vw;
+  margin-bottom: 10vh;
+}
+
+.movie-caption_block {
+  min-height: 5vh;
+  grid-area: caption;
+  text-align: center;
+  font-weight: 700;
+}
+
+.animate__animated.animate__fadeIn {
+  animation-duration: 1.5s;
 }
 
 .movie-card_poster {
   grid-area: poster;
-  width: 40vw;
   height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  gap: 1.5vh;
+  align-items: start;
+  padding-left: 2vw
 }
 
 .movie-card_poster img {
@@ -45,10 +63,6 @@
 }
 
 .navigation-button {
-  position: absolute;
-  margin-top: 3vh;
-  margin-left: 3vw;
-  top: 0;
   width: 10vw;
   height: 7vh;
   border: none;
@@ -60,8 +74,22 @@
   gap: .5vw;
   font-weight: 700;
   transition: transform .3s;
+  margin: 2vh 0 5vh 3vw;
 }
 
 .navigation-button:hover {
   transform: scale(1.2);
+}
+
+.movie-recomendations_block {
+  text-align: center;
+}
+
+.movieList-container {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  gap: 6vw;
+  padding: 3rem;
 }

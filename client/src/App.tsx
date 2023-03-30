@@ -7,18 +7,27 @@ import {
 } from 'react-router-dom';
 import Movies from './components/Movies/Movies';
 import "bootstrap/dist/css/bootstrap.min.css";
-import MovieCard from './components/Movies/MovieCard/MovieCard';
+import MovieCard from './components/MovieCard/MovieCard';
+import { MovieData } from './components/Movies/Movies';
+import React, { useState } from 'react';
+
+export const FavoritesContext = React.createContext<Array<MovieData>>([]);
 
 const App = () => {
+  const [favorites, setFavorites] = useState<Array<MovieData>>([]);
+
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/movies/:movieID" element={ <MovieCard /> } />
-          <Route path="/movies" element={ <Movies /> } />
-          <Route path="/" element={ <WelcomePage /> } />
-        </Routes>
-      </Router>
+      <FavoritesContext.Provider value={favorites}>
+        <Router>
+          <Routes>
+            <Route path="/movies/:movieID" element={ <MovieCard setFavorites={setFavorites} /> } />
+            <Route path="/movies" element={ <Movies setFavorites={setFavorites} /> } />
+            <Route path="/" element={ <WelcomePage /> } />
+            <Route path="/*" element={ <WelcomePage /> } />
+          </Routes>
+        </Router>
+      </FavoritesContext.Provider>
     </div>
   );
 };

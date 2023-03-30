@@ -1,15 +1,19 @@
 import './Movies.css';
+import "animate.css";
 import {
   useRef,
   useState,
-  useEffect
+  useEffect,
+  useContext
 } from 'react';
 import { Dropdown } from 'react-bootstrap';
+import TrackVisibility from "react-on-screen";
 import axios from 'axios';
 import MovieList from './MovieList';
 import AddFavorites from './AddFavorites';
 import RemoveFavorites from './RemoveFavorites';
 import Footer from '../Footer/Footer';
+import { FavoritesContext } from '../../App';
 
 export interface MovieData {
   Title: string;
@@ -39,15 +43,23 @@ export interface MovieData {
   Response: string;
 };
 
+interface MoviesProps {
+  setFavorites: (value: MovieData[]) => void;
+};
+
+export const saveToLocalStorage = (items: any) => {
+  localStorage.setItem('movie-app-favorites', JSON.stringify(items));
+};
+
 export const APIkey = 'bbf0084';
 export const APIendpoint = 'https://www.omdbapi.com/';
 
-const Movies = () => {
+const Movies = ({ setFavorites }: MoviesProps) => {
+  const favorites = useContext(FavoritesContext);
   const [inputText, setInputText] = useState('');
   const [oldChecker, setOldChecker] = useState(false);
   const [newChecker, setNewChecker] = useState(false);
   const [movies, setMovies] = useState<Array<MovieData>>([]);
-  const [favorites, setFavorites] = useState<Array<MovieData>>([]);
   const [topRatedMovies, setTopRatedMovies] = useState<Array<MovieData>>([]);
   const [show, setShow] = useState(false);
   const [firstClick, setFirstClick] = useState(false);
@@ -138,11 +150,7 @@ const Movies = () => {
     const moviesFavorites: MovieData[] = JSON.parse(localStorage.getItem('movie-app-favorites') || '[]');
 
     setFavorites(moviesFavorites);
-  }, []);
-
-  const saveToLocalStorage = (items: any) => {
-    localStorage.setItem('movie-app-favorites', JSON.stringify(items));
-  };
+  }, [setFavorites]);
 
   const addToFavorites = (movie: MovieData) => {
     const newFavorites = [...favorites];
@@ -170,59 +178,63 @@ const Movies = () => {
 
   return (
     <div className="main_div">
-      <div className="searching">
-        <h1>Movie Finder</h1>
-        <input
-          type="text"
-          placeholder="You're looking for..."
-          className="searching_input"
-          onChange={onInputChange}
-          value={inputText}
-          ref={inputEl}
-        />
+      <TrackVisibility>
+        {({ isVisible }) =>
+          <div className={isVisible ? "animate__animated animate__pulse searching" : "searching"}>
+            <h1>Movie Finder</h1>
+            <input
+              type="text"
+              placeholder="You're looking for..."
+              className="searching_input"
+              onChange={onInputChange}
+              value={inputText}
+              ref={inputEl}
+            />
 
-        <Dropdown
-          role="menuitemcheckbox"
-          id="dropdown-menu"
-          onMouseEnter={() => setShow(true)}
-          onMouseLeave={() => setShow(false)}
-          onClick={onDropdownClick}
-        >
-          <span>Specify a Year</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-arrow-down-circle"
-            viewBox="0 0 16 16"
-          >
-            <path fillRule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-          </svg>
-          <Dropdown.Menu show={show} id="dropdown-menu_content">
-          <label htmlFor="old-fashioned" className='label'>
-              <input
-                type="checkbox"
-                id="old-fashioned"
-                checked={oldChecker}
-                onChange={() => onCheckChange(setOldChecker, setNewChecker, 'old')}
-                className="input-checker"
-              />
-              OLD-FASHIONED <b>(1980-2010)</b>
-            </label>
+            <Dropdown
+              role="menuitemcheckbox"
+              id="dropdown-menu"
+              onMouseEnter={() => setShow(true)}
+              onMouseLeave={() => setShow(false)}
+              onClick={onDropdownClick}
+            >
+              <span>Specify a Year</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-arrow-down-circle"
+                viewBox="0 0 16 16"
+              >
+                <path fillRule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+              </svg>
+              <Dropdown.Menu show={show} id="dropdown-menu_content">
+              <label htmlFor="old-fashioned" className='label'>
+                  <input
+                    type="checkbox"
+                    id="old-fashioned"
+                    checked={oldChecker}
+                    onChange={() => onCheckChange(setOldChecker, setNewChecker, 'old')}
+                    className="input-checker"
+                  />
+                  OLD-FASHIONED <b>(1980-2010)</b>
+                </label>
 
-            <label htmlFor="new" className='label'>
-              <input
-                type="checkbox"
-                id="new"
-                checked={newChecker}
-                onChange={() => onCheckChange(setNewChecker, setOldChecker, 'new')}
-              />
-              NEW <b>(2010-2023)</b>
-            </label>
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
+                <label htmlFor="new" className='label'>
+                  <input
+                    type="checkbox"
+                    id="new"
+                    checked={newChecker}
+                    onChange={() => onCheckChange(setNewChecker, setOldChecker, 'new')}
+                  />
+                  NEW <b>(2010-2023)</b>
+                </label>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        }
+      </TrackVisibility>
 
       <div className="movies-block">
         <div className="search-result">
@@ -246,16 +258,20 @@ const Movies = () => {
           </div>
         </div>
 
-        <div className="favorites-movies">
-          <h1>{favorites.length > 0 ? 'Favorites' : ''}</h1>
-          <div className="movieList-container" id="favorites">
-            <MovieList
-              movies={favorites}
-              favoritesComponent={RemoveFavorites}
-              favoritesHandler={removeFromFavorites}
-            />
-          </div>
-        </div>
+        <TrackVisibility>
+          {({ isVisible }) =>
+            <div className="favorites-movies">
+              <h1 className={isVisible ? "animate__animated animate__pulse" : ""}>{favorites.length > 0 ? 'Favorites' : ''}</h1>
+              <div className="movieList-container" id="favorites">
+                <MovieList
+                  movies={favorites}
+                  favoritesComponent={RemoveFavorites}
+                  favoritesHandler={removeFromFavorites}
+                />
+              </div>
+            </div>
+          }
+        </TrackVisibility>
       </div>
       <Footer />
     </div>

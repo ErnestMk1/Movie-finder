@@ -11,11 +11,19 @@ type MovieListProps = {
 const MovieList = ({ movies, favoritesComponent, favoritesHandler }: MovieListProps) => {
   const FavoriteComponent = favoritesComponent;
 
+  const onShowMoreClick = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <>
       {movies.map((movie, index) => (
         <div key={index} className='movie_card'>
-          <NavLink className="top_overlay" to={`/movies/${movie.imdbID}`}>Show More</NavLink>
+          <NavLink
+            className="top_overlay"
+            to={`/movies/${movie.imdbID}`}
+            onClick={onShowMoreClick}
+          >Show More</NavLink>
           <img src={movie.Poster} alt="movie Poster" />
           <h2>{movie.Title}</h2>
 
