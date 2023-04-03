@@ -15,8 +15,9 @@ import {
 import arrow from '../../imgs/arrow.svg';
 import MovieList from "../Movies/MovieList";
 import AddFavorites from "../Movies/AddFavorites";
-import { FavoritesContext } from "../../App";
-import { saveToLocalStorage } from "../Movies/Movies";
+import { FavoritesContext, AlertContext } from "../../App";
+import { saveToLocalStorage, containsObject } from "../Movies/Movies";
+import AlertComponent from "../../Alert/AlertComponent";
 
 const initialState: MovieData = {
   Title: "No such movie :(",
@@ -52,10 +53,12 @@ const initialState: MovieData = {
 
 interface MovieCardProps {
   setFavorites: (value: MovieData[]) => void;
+  setShowAlert: (value: boolean) => void;
 }
 
-const MovieCard = ({ setFavorites }: MovieCardProps) => {
+const MovieCard = ({ setFavorites, setShowAlert }: MovieCardProps) => {
   const favorites = useContext(FavoritesContext);
+  const showAlert = useContext(AlertContext);
   const [movie, setMovie] = useState<MovieData>(initialState);
   const [recomendations, setRecomendations] = useState<Array<MovieData>>([initialState]);
   const { movieID } = useParams();
@@ -63,8 +66,8 @@ const MovieCard = ({ setFavorites }: MovieCardProps) => {
 
   const addToFavorites = (movie: MovieData) => {
     const newFavorites = [...favorites];
-    if (newFavorites.includes(movie)) {
-      // do something here !!!
+    if (containsObject(movie, newFavorites)) {
+      setShowAlert(true);
     } else {
       newFavorites.push(movie);
     }
@@ -133,6 +136,10 @@ const MovieCard = ({ setFavorites }: MovieCardProps) => {
         <section className="movie-card_poster">
           <img src={movie.Poster} alt="Movie Poster" />
         </section>
+      </div>
+
+      <div className="alert-block">
+        <AlertComponent showAlert={showAlert} setShowAlert={setShowAlert} />
       </div>
 
       <div className="movie-recomendations_block">

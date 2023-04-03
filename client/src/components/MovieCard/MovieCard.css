@@ -12,7 +12,7 @@
   width: 100vw;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: minmax(100px, auto);
+  grid-template-rows: minmax(50px, auto);
   grid-template-areas:
   ". caption caption"
   ". content poster";
@@ -92,4 +92,35 @@
   flex-wrap: nowrap;
   gap: 6vw;
   padding: 3rem;
+}
+
+.alert-block {
+  width: 50%;
+  position: fixed;
+  left: 25vw;
+  bottom: 1vh;
+  z-index: 5;
+}
+
+@media (orientation: landscape) and (min-width: 750px) and (max-width: 850px) and  (min-height: 550px) and (max-height: 650px) {
+  .navigation-button {
+    width: 15vw;
+  }
+
+  .movie-card_content p {
+    font-size: 1rem;
+  }
+
+  .movie-card_poster img {
+    width: 30vw;
+  }
+
+  .movie-card_content {
+    gap: 1vh;
+  }
+
+  .alert-block {
+    width: 70%;
+    left: 17vw;
+  }
 }

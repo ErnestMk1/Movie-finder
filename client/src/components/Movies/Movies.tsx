@@ -13,7 +13,8 @@ import MovieList from './MovieList';
 import AddFavorites from './AddFavorites';
 import RemoveFavorites from './RemoveFavorites';
 import Footer from '../Footer/Footer';
-import { FavoritesContext } from '../../App';
+import { FavoritesContext, AlertContext } from '../../App';
+import AlertComponent from '../../Alert/AlertComponent';
 
 export interface MovieData {
   Title: string;
@@ -45,17 +46,29 @@ export interface MovieData {
 
 interface MoviesProps {
   setFavorites: (value: MovieData[]) => void;
+  setShowAlert: (value: boolean) => void;
 };
 
 export const saveToLocalStorage = (items: any) => {
   localStorage.setItem('movie-app-favorites', JSON.stringify(items));
 };
 
+export const containsObject = (obj: MovieData, array: Array<any>): boolean => {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i].imdbID === obj.imdbID) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
 export const APIkey = 'bbf0084';
 export const APIendpoint = 'https://www.omdbapi.com/';
 
-const Movies = ({ setFavorites }: MoviesProps) => {
+const Movies = ({ setFavorites, setShowAlert }: MoviesProps) => {
   const favorites = useContext(FavoritesContext);
+  const showAlert = useContext(AlertContext);
   const [inputText, setInputText] = useState('');
   const [oldChecker, setOldChecker] = useState(false);
   const [newChecker, setNewChecker] = useState(false);
@@ -154,8 +167,9 @@ const Movies = ({ setFavorites }: MoviesProps) => {
 
   const addToFavorites = (movie: MovieData) => {
     const newFavorites = [...favorites];
-    if (newFavorites.includes(movie)) {
-      // do something here !!!
+
+    if (containsObject(movie, newFavorites)) {
+      setShowAlert(true);
     } else {
       newFavorites.push(movie);
     }
@@ -236,6 +250,10 @@ const Movies = ({ setFavorites }: MoviesProps) => {
         }
       </TrackVisibility>
 
+      <div className="alert-block">
+        <AlertComponent showAlert={showAlert} setShowAlert={setShowAlert} />
+      </div>
+
       <div className="movies-block">
         <div className="search-result">
           <div className="movieList-container">
@@ -252,7 +270,7 @@ const Movies = ({ setFavorites }: MoviesProps) => {
           <div className="movieList-container">
             <MovieList
               movies={topRatedMovies}
-              favoritesComponent={AddFavorites}
+              favoritesComponent={() => <AddFavorites firstClick={firstClick} onFirstFavoritesClick={onFirstFavoritesClick} />}
               favoritesHandler={addToFavorites}
             />
           </div>

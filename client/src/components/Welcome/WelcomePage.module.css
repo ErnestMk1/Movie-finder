@@ -53,3 +53,18 @@
 .dnone {
   opacity: 0;
 }
+
+@media (orientation: landscape) and (min-width: 750px) and (max-width: 850px) and  (min-height: 550px) and (max-height: 650px) {
+  .main_div {
+    background-image: none;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 255, 0.3),
+      rgba(255, 255, 0, 0.3)
+    ), url('../../imgs/welcome_bg_2.jpg');
+  }
+
+  .main_div h1, .main_div h2 {
+    width: 100vw;
+  }
+}
