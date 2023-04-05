@@ -17,7 +17,7 @@ import MovieList from "../Movies/MovieList";
 import AddFavorites from "../Movies/AddFavorites";
 import { FavoritesContext, AlertContext } from "../../App";
 import { saveToLocalStorage, containsObject } from "../Movies/Movies";
-import AlertComponent from "../../Alert/AlertComponent";
+import AlertComponent from "../Alert/AlertComponent";
 
 const initialState: MovieData = {
   Title: "No such movie :(",
@@ -123,6 +123,10 @@ const MovieCard = ({ setFavorites, setShowAlert }: MovieCardProps) => {
           <h1>{movie.Title}</h1>
         </div>
 
+        <section className="movie-card_poster">
+          <img src={movie.Poster} alt="Movie Poster" />
+        </section>
+
         <section className="movie-card_content">
           <p className="movie-plot"><b>Plot:</b> {movie.Plot}</p>
           <p className="movie-genre"><b>Genre:</b> {movie.Genre}</p>
@@ -131,10 +135,6 @@ const MovieCard = ({ setFavorites, setShowAlert }: MovieCardProps) => {
           <p className="movie-duration"><b>Duration:</b> {movie.Runtime}</p>
           <p className="movie-boxOffice"><b>Box Office Fees:</b> {movie.BoxOffice}</p>
           <p className="movie-country"><b>Country:</b> {movie.Country}</p>
-        </section>
-
-        <section className="movie-card_poster">
-          <img src={movie.Poster} alt="Movie Poster" />
         </section>
       </div>
 

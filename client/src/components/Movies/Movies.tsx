@@ -14,7 +14,7 @@ import AddFavorites from './AddFavorites';
 import RemoveFavorites from './RemoveFavorites';
 import Footer from '../Footer/Footer';
 import { FavoritesContext, AlertContext } from '../../App';
-import AlertComponent from '../../Alert/AlertComponent';
+import AlertComponent from '../Alert/AlertComponent';
 
 export interface MovieData {
   Title: string;

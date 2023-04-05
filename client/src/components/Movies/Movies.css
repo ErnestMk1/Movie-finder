@@ -84,6 +84,10 @@
   min-height: 10vh;
   padding: 3rem;
   border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   transition: transform .3s;
 }
@@ -203,6 +207,367 @@
   z-index: 5;
 }
 
+@media (orientation: portrait) and (min-height: 500px) and (max-height: 600px) {
+  .movie_card:hover {
+    transform: scale(1);
+  }
+
+  .searching {
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 100;
+  }
+
+  .searching h1 {
+    display: none;
+  }
+
+  .searching_input {
+    width: 70%;
+  }
+
+  .overlay {
+    font-size: .7rem;
+  }
+
+  #dropdown-menu {
+    z-index: 100;
+  }
+
+  #dropdown-menu_content {
+    width: 70vw;
+    left: -17vw;
+    bottom: -7vh;
+    font-size: .8rem;
+  }
+
+  .dropdown-menu > .label {
+    width: 65vw;
+  }
+
+  .movie_card {
+    width: 60vw;
+  }
+
+  .movie_card img {
+    width: 40vw;
+  }
+
+  .alert-block {
+    width: 70% !important;
+    left: 15vw !important;
+  }
+
+  .overlay, .top_overlay {
+    opacity: 1;
+    height: 8%;
+  }
+}
+
+@media (orientation: portrait) and (min-height: 600px) and (max-height: 1400px) and (max-width: 695px) {
+  .searching {
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 100;
+  }
+
+  .searching h1 {
+    display: none;
+  }
+
+  .searching_input {
+    width: 70%;
+  }
+
+  #dropdown-menu {
+    z-index: 100;
+  }
+
+  #dropdown-menu_content {
+    width: 50vw;
+    left: -11vw;
+    bottom: -7vh;
+    font-size: .8rem;
+  }
+
+  .dropdown-menu > .label {
+    width: 50vw;
+  }
+
+  .movie_card {
+    width: 60vw;
+  }
+
+  .movie_card img {
+    width: 40vw;
+  }
+
+  .alert-block {
+    width: 70% !important;
+    left: 15vw !important;
+  }
+
+  .movie_card:hover {
+    transform: scale(1);
+  }
+
+  .overlay, .top_overlay {
+    opacity: 1;
+    height: 8%;
+  }
+}
+
+@media (orientation: portrait) and (max-height: 900px) and (min-width: 700px) {
+  .movie_card:hover {
+    transform: scale(1);
+  }
+
+  .searching {
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 100;
+  }
+
+  .searching h1 {
+    display: none;
+  }
+
+  .searching_input {
+    width: 70%;
+  }
+
+  #dropdown-menu {
+    z-index: 100;
+  }
+
+  #dropdown-menu_content {
+    width: 50vw;
+    left: -11vw;
+    bottom: -7vh;
+    font-size: .8rem;
+  }
+
+  .dropdown-menu > .label {
+    width: 50vw;
+  }
+
+  .movie_card {
+    width: 50vw;
+  }
+
+  .movie_card img {
+    width: 30vw;
+  }
+
+  .alert-block {
+    width: 70% !important;
+    left: 15vw !important;
+  }
+
+  .overlay, .top_overlay {
+    opacity: 1;
+    height: 8%;
+  }
+}
+
+@media (orientation: portrait) and (min-height: 1000px) and (max-height: 1400px) and (max-width: 400px) {
+  .overlay {
+    font-size: .7rem;
+  }
+
+  .movie_card:hover {
+    transform: scale(1);
+  }
+
+  .overlay, .top_overlay {
+    opacity: 1;
+    height: 8%;
+  }
+}
+
+@media (orientation: portrait) and (min-height: 1000px) and (max-height: 1150px) and (min-width: 700px) {
+  .searching h1 {
+    margin-right: 5vw;
+  }
+
+  .searching_input {
+    margin-right: 1vw;
+  }
+
+  #dropdown-menu_content {
+    width: 40vw;
+    left: -9vw;
+    bottom: -4.5vh;
+    font-size: .8rem;
+  }
+
+  .dropdown-menu > .label {
+    width: 40vw;
+  }
+
+  .movie_card {
+    width: 35vw;
+  }
+
+  .movie_card img {
+    width: 20vw;
+  }
+
+  .overlay, .top_overlay {
+    height: 8%;
+  }
+
+  .alert-block {
+    width: 70% !important;
+    left: 15vw !important;
+  }
+
+  .movie_card:hover {
+    transform: scale(1);
+  }
+
+  .overlay, .top_overlay {
+    opacity: 1;
+    height: 8%;
+  }
+}
+
+@media (orientation: portrait) and (min-height: 1200px) and (max-height: 1400px) {
+  .searching h1 {
+    margin-right: 13vh;
+  }
+
+  #dropdown-menu_content {
+    width: 40vw;
+    left: -9vw;
+    bottom: -3vh;
+    font-size: .8rem;
+  }
+
+  .dropdown-menu > .label {
+    width: 40vw;
+  }
+
+  .movie_card {
+    width: 35vw;
+  }
+
+  .movie_card img {
+    width: 20vw;
+  }
+
+  .movie_card:hover {
+    transform: scale(1);
+  }
+
+  .overlay, .top_overlay {
+    opacity: 1;
+    height: 8%;
+  }
+}
+
+@media (orientation: landscape)  and (min-width: 550px) and (max-width: 650px) {
+  .searching {
+    gap: 3vw;
+  }
+
+  .searching h1 {
+    margin-right: 0;
+    font-size: 1.3rem;
+    padding: .7rem;
+  }
+
+  .searching_input {
+    padding: .7rem;
+    font-size: .7rem;
+  }
+
+  #dropdown-menu {
+    padding: .7rem;
+  }
+
+  #dropdown-menu_content {
+    width: 40vw;
+    left: -9vw;
+    bottom: -15vh;
+    font-size: .8rem;
+  }
+
+  .dropdown-menu > .label {
+    width: 40vw;
+  }
+
+  .movie_card {
+    width: 35vw;
+  }
+
+  .movie_card {
+    gap: 3vh;
+  }
+
+  .movie_card img {
+    width: 18vw;
+  }
+
+  .movie_card h2 {
+    font-size: 1rem;
+  }
+
+  .movie_card:hover {
+    transform: scale(1);
+  }
+
+  .overlay, .top_overlay {
+    opacity: 1;
+    height: 8%;
+    font-size: .5rem;
+  }
+}
+
+@media (orientation: landscape) and (min-width: 650px) and (max-width: 750px) {
+  .searching h1 {
+    margin-right: 0;
+    font-size: 1.5rem;
+  }
+
+  .searching {
+    gap: 5vw;
+  }
+
+  #dropdown-menu_content {
+    width: 33vw;
+    left: -7vw;
+    bottom: -12vh;
+    font-size: .8rem;
+  }
+
+  .dropdown-menu > .label {
+    width: 35vw;
+  }
+
+  .movie_card {
+    width: 35vw;
+  }
+
+  .movie_card img {
+    width: 18vw;
+  }
+
+  .movie_card h2 {
+    font-size: 1rem;
+  }
+
+  .movie_card:hover {
+    transform: scale(1);
+  }
+
+  .overlay, .top_overlay {
+    opacity: 1;
+    font-size: .7rem;
+    height: 8%;
+  }
+}
+
 @media (orientation: landscape) and (min-width: 750px) and (max-width: 850px) and  (min-height: 550px) and (max-height: 650px) {
   .searching h1 {
     margin-right: 0;
@@ -234,5 +599,60 @@
 
   .overlay, .top_overlay {
     font-size: .7rem;
+  }
+}
+
+@media (orientation: landscape) and (min-width: 1000px) and (max-width: 1150px) {
+  .searching h1 {
+    margin-right: 25vh;
+  }
+
+  #dropdown-menu_content {
+    width: 28vw;
+    left: -10vw;
+    bottom: -8vh;
+  }
+
+  .dropdown-menu > .label {
+    width: 28vw;
+  }
+
+  .movie_card {
+    width: 22vw;
+  }
+
+  .movie_card h2 {
+    font-size: 1.3rem;
+  }
+
+  .movie_card:hover {
+    transform: scale(1);
+  }
+
+  .overlay, .top_overlay {
+    opacity: 1;
+    font-size: .9rem;
+    height: 8%;
+  }
+}
+
+@media (orientation: landscape) and (min-width: 1200px) and (max-width: 1400px) {
+  .searching h1 {
+    margin-right: 35vh;
+  }
+
+  #dropdown-menu_content {
+    left: -10vh;
+  }
+}
+
+@media (orientation: landscape) and (min-width: 1200px) and (max-width: 1400px) and (min-height: 800px) {
+  .movie_card:hover {
+    transform: scale(1);
+  }
+
+  .overlay, .top_overlay {
+    opacity: 1;
+    height: 8%;
   }
 }
