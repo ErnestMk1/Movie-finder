@@ -64,7 +64,7 @@ export const containsObject = (obj: MovieData, array: Array<any>): boolean => {
   return false;
 };
 
-export const APIkey = 'bbf0084';
+export const APIkey = process.env.REACT_APP_API_KEY;
 export const APIendpoint = 'https://www.omdbapi.com/';
 
 const Movies = ({ setFavorites, setShowAlert, setSuccessPush }: MoviesProps) => {
