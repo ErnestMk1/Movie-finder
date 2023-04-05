@@ -200,9 +200,9 @@
 }
 
 .alert-block {
-  width: 50%;
+  width: 30%;
   position: fixed;
-  left: 25vw;
+  left: 35vw;
   bottom: 1vh;
   z-index: 5;
 }

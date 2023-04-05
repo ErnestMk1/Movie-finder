@@ -13,7 +13,7 @@ import MovieList from './MovieList';
 import AddFavorites from './AddFavorites';
 import RemoveFavorites from './RemoveFavorites';
 import Footer from '../Footer/Footer';
-import { FavoritesContext, AlertContext } from '../../App';
+import { FavoritesContext, AlertContext, SuccessPushContext } from '../../App';
 import AlertComponent from '../Alert/AlertComponent';
 
 export interface MovieData {
@@ -47,6 +47,7 @@ export interface MovieData {
 interface MoviesProps {
   setFavorites: (value: MovieData[]) => void;
   setShowAlert: (value: boolean) => void;
+  setSuccessPush: (value: boolean) => void;
 };
 
 export const saveToLocalStorage = (items: any) => {
@@ -66,7 +67,8 @@ export const containsObject = (obj: MovieData, array: Array<any>): boolean => {
 export const APIkey = 'bbf0084';
 export const APIendpoint = 'https://www.omdbapi.com/';
 
-const Movies = ({ setFavorites, setShowAlert }: MoviesProps) => {
+const Movies = ({ setFavorites, setShowAlert, setSuccessPush }: MoviesProps) => {
+  const successPush = useContext(SuccessPushContext);
   const favorites = useContext(FavoritesContext);
   const showAlert = useContext(AlertContext);
   const [inputText, setInputText] = useState('');
@@ -169,10 +171,14 @@ const Movies = ({ setFavorites, setShowAlert }: MoviesProps) => {
     const newFavorites = [...favorites];
 
     if (containsObject(movie, newFavorites)) {
+      setSuccessPush(false);
       setShowAlert(true);
     } else {
       newFavorites.push(movie);
+      setSuccessPush(true);
+      setShowAlert(true);
     }
+
     setFavorites(newFavorites);
     saveToLocalStorage(newFavorites);
   };
@@ -251,7 +257,11 @@ const Movies = ({ setFavorites, setShowAlert }: MoviesProps) => {
       </TrackVisibility>
 
       <div className="alert-block">
-        <AlertComponent showAlert={showAlert} setShowAlert={setShowAlert} />
+        <AlertComponent
+          showAlert={showAlert}
+          setShowAlert={setShowAlert}
+          alertMsg={successPush ? "Added!)" : "You've already have this movie!"}
+        />
       </div>
 
       <div className="movies-block">

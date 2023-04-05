@@ -15,7 +15,7 @@ import {
 import arrow from '../../imgs/arrow.svg';
 import MovieList from "../Movies/MovieList";
 import AddFavorites from "../Movies/AddFavorites";
-import { FavoritesContext, AlertContext } from "../../App";
+import { FavoritesContext, AlertContext, SuccessPushContext } from "../../App";
 import { saveToLocalStorage, containsObject } from "../Movies/Movies";
 import AlertComponent from "../Alert/AlertComponent";
 
@@ -54,9 +54,11 @@ const initialState: MovieData = {
 interface MovieCardProps {
   setFavorites: (value: MovieData[]) => void;
   setShowAlert: (value: boolean) => void;
+  setSuccessPush: (value: boolean) => void;
 }
 
-const MovieCard = ({ setFavorites, setShowAlert }: MovieCardProps) => {
+const MovieCard = ({ setFavorites, setShowAlert, setSuccessPush }: MovieCardProps) => {
+  const successPush = useContext(SuccessPushContext);
   const favorites = useContext(FavoritesContext);
   const showAlert = useContext(AlertContext);
   const [movie, setMovie] = useState<MovieData>(initialState);
@@ -67,9 +69,12 @@ const MovieCard = ({ setFavorites, setShowAlert }: MovieCardProps) => {
   const addToFavorites = (movie: MovieData) => {
     const newFavorites = [...favorites];
     if (containsObject(movie, newFavorites)) {
+      setSuccessPush(false);
       setShowAlert(true);
     } else {
       newFavorites.push(movie);
+      setSuccessPush(true);
+      setShowAlert(true);
     }
     setFavorites(newFavorites);
     saveToLocalStorage(newFavorites);
@@ -139,7 +144,11 @@ const MovieCard = ({ setFavorites, setShowAlert }: MovieCardProps) => {
       </div>
 
       <div className="alert-block">
-        <AlertComponent showAlert={showAlert} setShowAlert={setShowAlert} />
+        <AlertComponent
+          showAlert={showAlert}
+          setShowAlert={setShowAlert}
+          alertMsg={successPush ? "Added!)" : "You've already have this movie!"}
+        />
       </div>
 
       <div className="movie-recomendations_block">
