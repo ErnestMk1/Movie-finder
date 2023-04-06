@@ -1,5 +1,5 @@
 # Movie-finder
 
-This project is inspired by OMDb API. Here you can observe my skills in managing RESTful API and styling. Enjoy!)
+About project: this is what you get when ordered Netflix from China. But I promise, it's really cool!!)
 
 [DEMO](https://ErnestMk1.github.io/Movie-finder/)
