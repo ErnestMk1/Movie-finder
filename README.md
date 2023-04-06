@@ -1,5 +1,5 @@
 # Movie-finder
 
-About project: this is what you get when ordered Netflix from China. But I promise, it's really cool!!)
+About project: this is what you get when you ordered Netflix from China. But I promise, it's really cool!!)
 
 [DEMO](https://ErnestMk1.github.io/Movie-finder/)
